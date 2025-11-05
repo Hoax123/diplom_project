@@ -1,0 +1,96 @@
+.header {
+    background-color: #000;
+    color: #fff;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid #222;
+    margin: 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logoLink {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+.logoLink:hover {
+    color: #aaa;
+}
+
+.rightSection {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.navLink,
+.registerLink {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+
+.navLink:hover,
+.registerLink:hover {
+    color: #ccc;
+}
+
+.guestSection {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+
+.authSection {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.userInfo {
+    color: #bbb;
+    font-size: 0.95rem;
+    font-weight: 400;
+}
+
+.navLinks {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.logoutBtn {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.logoutBtn:hover {
+    background-color: #222;
+    transform: scale(1.05);
+}
+

@@ -1,0 +1,98 @@
+.page {
+    background: #fff;
+    color: #000;
+    font-family: "Georgia", "Times New Roman", serif;
+    padding: 3rem 5rem;
+}
+
+.contentWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.breadcrumbs {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 1.5rem;
+    margin-left: 0.5rem;
+}
+
+.content {
+    display: flex;
+    gap: 3rem;
+    align-items: flex-start;
+}
+
+.imageBlock {
+    flex: 0 0 560px;
+    height: 560px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.divider {
+    width: 1.5px;
+    background: #000;
+    height: 560px;
+}
+
+.infoBlock {
+    flex: 1;
+    height: 560px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.textGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 1.7rem;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.label {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.value {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.button {
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 1.1rem;
+    width: 100%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.button:hover {
+    opacity: 0.8;
+}
+
+.notFound {
+    text-align: center;
+    padding: 4rem;
+    font-size: 1.5rem;
+}

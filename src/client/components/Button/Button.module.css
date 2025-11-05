@@ -1,0 +1,23 @@
+.button {
+    background: #000;
+    color: #fff;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-family: "Georgia", "Times New Roman", serif;
+    transition: all 0.2s ease;
+    border: 1px solid white;
+    align-items: center;
+    display: flex;
+    margin-top: 15px;
+    justify-content: center;
+}
+
+.button:hover {
+    opacity: 0.8;
+    transform: translateY(-1px);
+}
+
+.button:active {
+    transform: translateY(1px);
+}

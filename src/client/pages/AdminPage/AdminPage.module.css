@@ -1,0 +1,80 @@
+.page {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem 3rem;
+    background: #fff;
+    font-family: "Georgia", "Times New Roman", serif;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+
+.left {
+    width: 22%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.title {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.input {
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding: 0.5rem 0.7rem;
+    background: #f3f3f3;
+}
+
+.right {
+    flex: 1;
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    border-bottom: 1px solid #ddd;
+    padding: 0.6rem 0.4rem;
+    text-align: left;
+    vertical-align: top;
+}
+
+.table th {
+    border-bottom: 2px solid #000;
+}
+
+.urlCell {
+    max-width: 260px;
+    word-break: break-all;
+    font-size: 0.85rem;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.actionBtn {
+    background: transparent;
+    border: 1px solid #000;
+    border-radius: 999px;
+    padding: 0.35rem 0.8rem;
+    font-size: 0.78rem;
+    cursor: pointer;
+}
+
+.actionBtn:hover {
+    background: rgba(0, 0, 0, 0.05);
+}

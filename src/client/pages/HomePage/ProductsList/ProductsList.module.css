@@ -1,0 +1,131 @@
+.products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 3rem 4rem;
+    background: #fff;
+}
+
+
+.card {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.image {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    background-color: #eee;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size: 1.1rem;
+    color: #000;
+    margin-top: 0.7rem;
+}
+
+.name {
+    font-weight: 400;
+}
+
+.price {
+    font-weight: 400;
+}
+
+.filters {
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+    padding: 0 4rem;
+    margin-top: 2rem;
+}
+
+.searchInput {
+    width: 100%;
+    border: 1px solid #000;
+    border-radius: 999px;
+    padding: 0.8rem 1.4rem;
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size: 1rem;
+    outline: none;
+    background: #fff;
+}
+
+.searchInput::placeholder {
+    color: #555;
+}
+
+.selects {
+    display: flex;
+    gap: 2.5rem;
+}
+
+.select {
+    border: none;
+    background: transparent;
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size: 1rem;
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    padding: 0.2rem 0;
+}
+
+.select:focus {
+    outline: none;
+    border-bottom: 1px solid #000;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 3rem 4rem;
+    background: #fff;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.image {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    background-color: #eee;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size: 1.1rem;
+    color: #000;
+    margin-top: 0.7rem;
+}
+
+.name {
+    font-weight: 400;
+}
+
+.price {
+    font-weight: 400;
+}
