@@ -2,7 +2,7 @@ import {Link} from "react-router-dom";
 import styles from "./header.module.css";
 
 export function Header() {
-    const isAuthenticaded = true
+    const isAuthenticaded = false
     const user = {name: "Ivan"}
 
     return (
