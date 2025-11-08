@@ -1,14 +1,14 @@
-import {User} from '../models/User'
+import {User} from '../models/user.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 
 const JWT_SECRET = "supersecret"
 
-export async function Register(req, res) {
+export async function register(req, res) {
     try {
         const {login, password, role} = req.body
 
-        const existing = User.findOne({login})
+        const existing = await User.findOne({login})
         if (existing) {
             return res.json({success: false, error: "User already exist"})
         }
@@ -32,7 +32,7 @@ export async function login(req, res) {
     try {
         const {login, password} = req.body
 
-        const user = User.findOne({login})
+        const user = await User.findOne({login})
         if (!user) {
             return res.json({success: false, error: 'User does not exist'})
         }
@@ -48,7 +48,7 @@ export async function login(req, res) {
             {expiresIn: '7d'}
         )
 
-        res.json({success: true, token, user: {id: user._id, login: user.login, role: user.role}})
+        return res.json({success: true, token, user: {id: user._id, login: user.login, role: user.role}})
 
     } catch(error) {
         return res.json({success: false, error: error.message})

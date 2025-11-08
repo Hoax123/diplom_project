@@ -1,6 +1,8 @@
 import express from 'express'
 const router = express.Router()
 import {createProduct, getProducts, deleteProduct, updateProduct} from "../controllers/productsController.js";
+import {auth} from "../middlewares/auth.js";
+import {requireRole} from "../middlewares/role.js";
 
 router.get('/', async (req, res) => {
     try {
@@ -11,7 +13,10 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.post('/', async (req, res) => {
+router.post('/',
+    auth,
+    requireRole(['admin']),
+    async (req, res) => {
     try {
         const createdProduct = await createProduct(req.body)
         res.json({success: true, data: createdProduct})
@@ -20,7 +25,10 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id',
+    auth,
+    requireRole(['admin']),
+    async (req, res) => {
     try {
         const deletedProduct = await deleteProduct(req.params.id);
 
@@ -34,7 +42,10 @@ router.delete('/:id', async (req, res) => {
     }
 })
 
-router.put('/:id', async (req, res) => {
+router.put('/:id',
+    auth,
+    requireRole(['admin']),
+    async (req, res) => {
     try {
         const updatedProduct = await updateProduct(req.params.id, req.body);
 
