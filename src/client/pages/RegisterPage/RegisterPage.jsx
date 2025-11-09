@@ -5,6 +5,7 @@ import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {registerUser} from "../../redux/Slices/auth/authSlice.jsx";
 import {Loader} from "../../components/Loader/Loader.jsx";
+import {BreedCrumbs} from "../../components/Breedcrumbs/BreedCrumbs.jsx";
 
 export function RegisterPage() {
     const [userData, setUserData] = useState({
@@ -33,6 +34,9 @@ export function RegisterPage() {
 
     return (
         <div className={styles.page}>
+
+            <BreedCrumbs/>
+
             <h2 className={styles.title}>Регистрация</h2>
 
             <form action="" className={styles.form} onSubmit={handleSubmit}>

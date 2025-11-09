@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {removeFromCart} from "../../redux/Slices/cart/cartSlice.jsx";
 import {Loader} from "../../components/Loader/Loader.jsx";
+import {BreedCrumbs} from "../../components/Breedcrumbs/BreedCrumbs.jsx";
 
 
 export function CartPage() {
@@ -17,6 +18,9 @@ export function CartPage() {
 
     return (
         <div className={styles.page}>
+
+            <BreedCrumbs/>
+
             <h1 className={styles.title}>Корзина</h1>
 
             <div className={styles.layout}>

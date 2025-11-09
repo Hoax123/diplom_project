@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchProducts, createProduct, deleteProduct, updateProduct} from "../../redux/Slices/products/productsSlice.jsx";
 import {useEffect, useState} from "react";
 import {Loader} from "../../components/Loader/Loader.jsx";
+import {BreedCrumbs} from "../../components/Breedcrumbs/BreedCrumbs.jsx";
 
 export function AdminPage() {
     const [productForm, setProductForm] = useState({
@@ -71,8 +72,12 @@ export function AdminPage() {
     }
 
     return (
+
         <div className={styles.page}>
+
             <div className={styles.left}>
+
+                <BreedCrumbs/>
 
                 <h2 className={styles.title}>{editingId ? 'Изменить товар' : 'Добавить товар'}</h2>
 

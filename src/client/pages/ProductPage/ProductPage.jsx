@@ -4,6 +4,7 @@ import {Button} from "../../components/Button/Button.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {addToCart} from "../../redux/Slices/cart/cartSlice.jsx";
 import {Loader} from "../../components/Loader/Loader.jsx";
+import {BreedCrumbs} from "../../components/Breedcrumbs/BreedCrumbs.jsx";
 
 export function ProductPage() {
     const { id } = useParams();
@@ -23,7 +24,8 @@ export function ProductPage() {
 
     return (
         <div className={styles.page}>
-            <div className={styles.breadcrumbs}>типо хлебные крошки</div>
+
+            <BreedCrumbs/>
 
             <div className={styles.content}>
 
