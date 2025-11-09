@@ -3,11 +3,13 @@ import { products } from "../../db.js";
 import styles from "./productPage.module.css";
 import {Button} from "../../components/Button/Button.jsx";
 import {addProductToCart} from "../../redux/Slices/cart/cartSlice.jsx";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 export function ProductPage() {
     const { id } = useParams();
-    const product = products.find((p) => p.id === Number(id));
+    const products = useSelector((state) => state.products.list);
+
+    const product = products.find(item => item._id === id);
 
     const dispatch = useDispatch();
 

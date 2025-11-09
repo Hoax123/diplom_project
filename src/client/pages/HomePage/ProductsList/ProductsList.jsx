@@ -1,14 +1,22 @@
 import styles from "./productsList.module.css";
 import {Link} from "react-router-dom";
-import {useState} from "react";
-import {useSelector} from "react-redux";
+import {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchProducts} from "../../../redux/Slices/products/productsSlice.jsx";
 
 export function ProductsList() {
     const [search, setSearch] = useState("");
     const [category, setCategory] = useState("all");
     const [sort, setSort] = useState("none");
 
-    const products = useSelector(state => state.products.list);
+    const dispatch = useDispatch();
+    const {list: products, status, error} = useSelector((state) => state.products);
+
+    useEffect(() => {
+        if (status === 'idle') {
+            dispatch(fetchProducts());
+        }
+    }, [dispatch, status]);
 
     const result = products
         .filter(item => {
@@ -25,6 +33,11 @@ export function ProductsList() {
             if (sort === 'cheap') return a.price - b.price
             if (sort === 'stock') return b.quantity - a.quantity
         })
+
+
+    if (status === 'loading') return <div>Загрузка...</div>
+
+    if (status === 'failed') return <div>Ошибка: {error}</div>
 
 
 
@@ -66,8 +79,8 @@ export function ProductsList() {
 
             <div className={styles.products}>
                 {result.map((product) => (
-                    <div key={product.id} className={styles.card}>
-                        <Link to={`/products/${product.id}`}>
+                    <div key={product._id} className={styles.card}>
+                        <Link to={`/products/${product._id}`}>
                             <img
                                 src={product.image}
                                 alt={product.name}
