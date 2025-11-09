@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchProducts} from "../../../redux/Slices/products/productsSlice.jsx";
+import {Loader} from "../../../components/Loader/Loader.jsx";
 
 export function ProductsList() {
     const [search, setSearch] = useState("");
@@ -35,7 +36,7 @@ export function ProductsList() {
         })
 
 
-    if (status === 'loading') return <div>Загрузка...</div>
+    if (status === 'loading') return <Loader message='Загрузка товаров...'/>;
 
     if (status === 'failed') return <div>Ошибка: {error}</div>
 

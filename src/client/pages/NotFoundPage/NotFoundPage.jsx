@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./NotFoundPage.module.css";
+import {Loader} from "../../components/Loader/Loader.jsx";
 
 export function NotFoundPage() {
     return (

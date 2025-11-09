@@ -3,6 +3,7 @@ import styles from "./productPage.module.css";
 import {Button} from "../../components/Button/Button.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {addToCart} from "../../redux/Slices/cart/cartSlice.jsx";
+import {Loader} from "../../components/Loader/Loader.jsx";
 
 export function ProductPage() {
     const { id } = useParams();
@@ -16,6 +17,9 @@ export function ProductPage() {
     if (!product) {
         return <div className={styles.notFound}>Товар не найден</div>;
     }
+
+    if (status === 'loading') return <Loader message='Загрузка товара...'/>;
+    if (error) return <div> Ошибка загрузки - {error}</div>
 
     return (
         <div className={styles.page}>

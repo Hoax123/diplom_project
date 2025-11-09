@@ -3,13 +3,17 @@ import {Button} from "../../components/Button/Button.jsx";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {removeFromCart} from "../../redux/Slices/cart/cartSlice.jsx";
+import {Loader} from "../../components/Loader/Loader.jsx";
 
 
 export function CartPage() {
     const items = useSelector((state) => state.cart.items);
     const total = useSelector((state) => state.cart.totalAmount);
+    const status = useSelector((state) => state.cart.status);
     const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.token);
+
+    if (status === "loading") return <Loader message='Загрузка корзины...'/>
 
     return (
         <div className={styles.page}>

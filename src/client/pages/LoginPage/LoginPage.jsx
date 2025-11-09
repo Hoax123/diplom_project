@@ -6,6 +6,7 @@ import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {loginUser} from "../../redux/Slices/auth/authSlice.jsx";
 import {fetchCart} from "../../redux/Slices/cart/cartSlice.jsx";
+import {Loader} from "../../components/Loader/Loader.jsx";
 
 export function LoginPage() {
     const [userData, setUserData] = useState({
@@ -58,7 +59,9 @@ export function LoginPage() {
                        onChange={handleChange}
                        name='password' />
 
-                <Button width='100%' height='60px' type='submit'>{status === 'loading' ? 'Вход...' : 'Войти'}</Button>
+                <Button width='100%' height='60px' type='submit'>
+                    {status === 'loading' ? <Loader size='20' message=''/> : 'Войти'}
+                </Button>
 
                 <Link to='/register' className={styles.link}>Зарегистрироваться</Link>
 

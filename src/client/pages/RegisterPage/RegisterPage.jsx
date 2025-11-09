@@ -4,6 +4,7 @@ import {Input} from "../../components/Input/Input.jsx";
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {registerUser} from "../../redux/Slices/auth/authSlice.jsx";
+import {Loader} from "../../components/Loader/Loader.jsx";
 
 export function RegisterPage() {
     const [userData, setUserData] = useState({
@@ -52,7 +53,7 @@ export function RegisterPage() {
                        onChange={handleChange}
                        name='password' />
 
-                <Button width='100%' height='60px' type='submit'>{status === 'loading' ? 'Регистрация...' : 'Зарегистрироваться'}</Button>
+                <Button width='100%' height='60px' type='submit'>{status === 'loading' ? <Loader size='20' message=''/> : 'Зарегистрироваться'}</Button>
 
                 {error && <div style={{color: "red"}}>Ошибка - {error}</div>}
             </form>

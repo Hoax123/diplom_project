@@ -4,6 +4,7 @@ import {Input} from "../../components/Input/Input.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchProducts, createProduct, deleteProduct, updateProduct} from "../../redux/Slices/products/productsSlice.jsx";
 import {useEffect, useState} from "react";
+import {Loader} from "../../components/Loader/Loader.jsx";
 
 export function AdminPage() {
     const [productForm, setProductForm] = useState({
@@ -116,7 +117,7 @@ export function AdminPage() {
             </div>
 
             <div className={styles.right}>
-                {status === "loading" && <div>Загрузка товаров...</div>}
+                {status === "loading" && <Loader message='Загрузка товаров...'/>}
 
                 <table className={styles.table}>
                     <thead>
