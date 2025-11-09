@@ -1,13 +1,13 @@
 import { useParams } from "react-router-dom";
-import { products } from "../../db.js";
 import styles from "./productPage.module.css";
 import {Button} from "../../components/Button/Button.jsx";
-import {addProductToCart} from "../../redux/Slices/cart/cartSlice.jsx";
 import {useDispatch, useSelector} from "react-redux";
+import {addToCart} from "../../redux/Slices/cart/cartSlice.jsx";
 
 export function ProductPage() {
     const { id } = useParams();
-    const products = useSelector((state) => state.products.list);
+    const {list: products, status, error} = useSelector((state) => state.products);
+    const token = useSelector((state) => state.auth.token);
 
     const product = products.find(item => item._id === id);
 
@@ -53,12 +53,13 @@ export function ProductPage() {
 
                         <div className={styles.item}>
                             <span className={styles.label}>Id товара</span>
-                            <span className={styles.value}>{product.id}</span>
+                            <span className={styles.value}>{product._id}</span>
                         </div>
 
                     </div>
 
-                    <Button width='100%' height='60px' onClick={() => dispatch(addProductToCart(product))}>В корзину</Button>
+                    <Button width='100%' height='60px' onClick={() =>
+                        dispatch(addToCart({token, productId: product._id, quantity: 1}))}>В корзину</Button>
                 </div>
             </div>
         </div>

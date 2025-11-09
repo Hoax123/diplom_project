@@ -1,61 +1,116 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
+const API = 'http://localhost:5003/api/cart'
 
-const initialCartList = [{
-    id: 7,
-    name: "Рубашка с широким рукавом",
-    category: "рубашка",
-    price: 12900,
-    quantity: 8,
-    image: "https://cdn-sh1.vigbo.com/shops/199204/products/22048244/images/3-acbe255cf3d8ec30eaf75e91bcf8c825.JPG?version=undefined"
-},
-    {
-        id: 8,
-        name: "Рубашка со шлейфом",
-        category: "рубашка",
-        price: 9800,
-        quantity: 6,
-        image: "https://cdn-sh1.vigbo.com/shops/199204/products/21786432/images/2-4d3e8a41e2d185fd43554667d2827d2e.JPG"
-    },
-    {
-        id: 9,
-        name: "Ассиметричная рубашка",
-        category: "рубашка",
-        price: 13400,
-        quantity: 4,
-        image: "https://cdn-sh1.vigbo.com/shops/199204/products/23963664/images/2-bbee98f4b181ca854e7ee21a2235d82b.JPG"
-    }]
+export const fetchCart = createAsyncThunk(
+    'cart/fetchCart',
+    async ({ token }, thunkAPI) => {
+        const response = await fetch(API, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+
+        const data = await response.json()
+
+        if (!data.success) return thunkAPI.rejectWithValue(data.error)
+
+        return data.data
+    }
+)
+
+export const addToCart = createAsyncThunk(
+    'cart/addToCart',
+    async ({ token, productId, quantity = 1}, thunkAPI) => {
+        const response = await fetch(`${API}/add`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                 Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({productId, quantity})
+        })
+
+        const data = await response.json()
+
+        if (!data.success) return thunkAPI.rejectWithValue(data.error)
+
+        return data.data
+    }
+)
+
+export const removeFromCart = createAsyncThunk(
+    'cart/removeFromCart',
+    async ({ token, productId }, thunkAPI) => {
+        const response = await fetch(`${API}/${productId}`, {
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+        const data = await response.json()
+
+        if (!data.success) return thunkAPI.rejectWithValue(data.error)
+
+        return data.data
+    }
+)
 
 const initialState = {
-    cartList: initialCartList,
-    totalQuantity: initialCartList.reduce((sum, item) => sum + item.quantity, 0),
-    totalAmount: initialCartList.reduce((sum, item) => sum + item.quantity * item.price, 0),
+    items: [],
+    totalQuantity: 0,
+    totalAmount: 0,
+    status: "idle",
     error: null,
+}
+
+function recalc(state) {
+    state.totalQuantity = state.items.reduce((sum, item) => sum + item.quantity, 0)
+    state.totalAmount = state.items.reduce((sum, item) => {
+        const price = typeof item.productId === 'object' ? item.productId.price : 0
+        return sum + item.quantity * price
+    }, 0)
 }
 
 const cartSlice = createSlice({
     name: "cart",
     initialState,
     reducers: {
-        addProductToCart: (state, action) => {
-            state.cartList.push(action.payload);
-
-            state.totalAmount = state.cartList.reduce((sum, item) => sum + item.quantity * item.price, 0)
-            state.totalQuantity = state.cartList.reduce((sum, item) => sum + item.quantity, 0)
-        },
-        deleteProductFromCart: (state, action) => {
-            const id = action.payload;
-            state.cartList = state.cartList.filter(product => product.id !== id);
-
-            state.totalAmount = state.cartList.reduce((sum, item) => sum + item.quantity * item.price, 0)
-            state.totalQuantity = state.cartList.reduce((sum, item) => sum + item.quantity, 0)
-        },
-        recalculateTotals(state) {
-            state.totalAmount = state.cartList.reduce((sum, item) => sum + item.quantity * item.price, 0)
-            state.totalQuantity = state.cartList.reduce((sum, item) => sum + item.quantity, 0)
+        clearCart(state) {
+            state.items = []
+            state.totalAmount = 0
+            state.totalQuantity = 0
         }
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchCart.pending, (state) => {
+                state.status = "loading"
+                state.error = null
+            })
+            .addCase(fetchCart.fulfilled, (state, action) => {
+            state.status = 'succeeded'
+            state.items = action.payload?.items || []
+            recalc(state)
+            })
+            .addCase(fetchCart.rejected, (state, action) => {
+            state.status = 'failed'
+            state.error = action.payload
+            })
+
+            .addCase(addToCart.fulfilled, (state, action) => {
+                state.items = action.payload?.items || []
+                recalc(state)
+            })
+
+            .addCase(removeFromCart.fulfilled, (state, action) => {
+                state.items = action.payload?.items || []
+                recalc(state)
+            })
+
     }
 })
 
-export const {addProductToCart, deleteProductFromCart, recalculateTotals} = cartSlice.actions;
+export const {clearCart} = cartSlice.actions;
 export default cartSlice.reducer;

@@ -1,5 +1,4 @@
 import {Cart} from "../models/cart.js";
-import mongoose from "mongoose";
 
 export async function getCart(req, res) {
     const cart = await Cart.findOne({userId: req.user.id}).populate("items.productId")
@@ -11,12 +10,14 @@ export async function addToCart(req, res) {
     let cart = await Cart.findOne({userId: req.user.id})
 
     if (!cart) {
-        cart = await Cart.create({
+        await Cart.create({
             userId: req.user.id,
             items: [{productId, quantity}],
         })
 
-        return res.json({success: true, data: cart})
+        const freshCart = await Cart.findOne({userId: req.user.id}).populate("items.productId")
+
+        res.json({success: true, data: freshCart})
     }
 
     const existing = cart.items.find(item => item.productId.toString() === productId)
@@ -28,7 +29,9 @@ export async function addToCart(req, res) {
     }
     await cart.save()
 
-    return res.json({success: true, data: cart})
+    const freshCart = await Cart.findOne({userId: req.user.id}).populate("items.productId")
+
+    return res.json({success: true, data: freshCart})
 }
 
 export async function removeFromCart(req, res) {
@@ -42,5 +45,7 @@ export async function removeFromCart(req, res) {
     cart.items = cart.items.filter(item => item.productId.toString() !== productId)
     await cart.save()
 
-    return res.json({success: true, data: cart})
+    const freshCart = await Cart.findOne({userId: req.user.id}).populate("items.productId")
+
+    return res.json({success: true, data: freshCart})
 }
