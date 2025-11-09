@@ -7,6 +7,7 @@ import {CartPage} from "./client/pages/CartPage/CartPage.jsx";
 import {AdminPage} from "./client/pages/AdminPage/AdminPage.jsx";
 import {Provider} from "react-redux";
 import {store} from "./client/redux/store.jsx";
+import {RequireRole} from "./client/components/requireRole/requireRole.jsx";
 
 
 function App() {
@@ -21,8 +22,18 @@ function App() {
                             <Route path="/login" element={<LoginPage />} />
                             <Route path="/register" element={<RegisterPage />} />
                             <Route path="/products/:id" element={<ProductPage />} />
-                            <Route path='/cart' element={<CartPage />} />
-                            <Route path='/admin' element={<AdminPage />} />
+
+
+                            <Route path='/cart' element={
+                                <RequireRole allowedRoles={["user"]}>
+                                    <CartPage />
+                                </RequireRole>
+                            } />
+                            <Route path='/admin' element={
+                                <RequireRole allowedRoles={["admin"]}>
+                                    <AdminPage />
+                                </RequireRole>
+                            } />
 
                             <Route path="*" element={<NotFoundPage />} />
                         </Routes>
