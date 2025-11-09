@@ -76,22 +76,7 @@ const initialState = {
 const productsSlice = createSlice({
     name: 'products',
     initialState,
-    reducers: {
-        productAdd: (state, action) => {
-            state.list.push(action.payload)
-        },
-        productDelete: (state, action) => {
-            const id = action.payload
-            state.list = state.list.filter(item => item.id !== id)
-        },
-        productUpdate: (state, action) => {
-            const updatedProduct = action.payload
-            const ProductIndexToUpdate = state.list.findIndex(item => item.id === updatedProduct.id)
-            if (ProductIndexToUpdate !== -1) {
-                state.list[ProductIndexToUpdate] = updatedProduct
-            }
-        },
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(fetchProducts.pending, (state, action) => {
@@ -122,7 +107,7 @@ const productsSlice = createSlice({
             })
 
 
-            .addCase(updateProduct.pending, (state, action) => {
+            .addCase(updateProduct.pending, (state) => {
                 state.status = 'loading'
                 state.error = null
             })
@@ -131,7 +116,7 @@ const productsSlice = createSlice({
 
                 const updated = action.payload
                 state.list = state.list.map(item =>
-                    item._id === updated.id ? updated : item)
+                    item._id === updated._id ? updated : item)
             })
             .addCase(updateProduct.rejected, (state, action) => {
                 state.status = 'failed'
@@ -146,7 +131,7 @@ const productsSlice = createSlice({
             .addCase(deleteProduct.fulfilled, (state, action) => {
                 state.status = 'succeeded'
 
-                const {id} = action.payload
+                const id = action.payload
                 state.list = state.list.filter(item => item._id !== id)
             })
             .addCase(deleteProduct.rejected, (state, action) => {
@@ -156,5 +141,4 @@ const productsSlice = createSlice({
     }
 })
 
-export const {productAdd, productDelete, productUpdate} = productsSlice.actions;
 export default productsSlice.reducer

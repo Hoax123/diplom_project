@@ -2,12 +2,11 @@ import styles from "./adminPage.module.css";
 import {Button} from "../../components/Button/Button.jsx";
 import {Input} from "../../components/Input/Input.jsx";
 import {useDispatch, useSelector} from "react-redux";
-import {productAdd, productDelete, productUpdate} from "../../redux/Slices/products/productsSlice.jsx";
-import {useState} from "react";
+import {fetchProducts, createProduct, deleteProduct, updateProduct} from "../../redux/Slices/products/productsSlice.jsx";
+import {useEffect, useState} from "react";
 
 export function AdminPage() {
     const [productForm, setProductForm] = useState({
-        id: Math.random(),
         name: "",
         category: "",
         price: "",
@@ -17,27 +16,39 @@ export function AdminPage() {
 
     const [editingId, setEditingId] = useState(null);
 
-    const products = useSelector(state => state.products.list)
+    const {list: products, error, status} = useSelector((state) => state.products);
+    const token = useSelector((state) => state.auth.token);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (status === 'idle') {
+            dispatch(fetchProducts());
+        }
+    }, [dispatch, status]);
 
     function handleChange(e) {
         const { name, value } = e.target;
         setProductForm(prev => ({...prev, [name]: value}));
     }
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
 
-        console.log(productForm);
+        if (!productForm.name || !productForm.category) return
 
         if (editingId) {
-            dispatch(productUpdate(productForm))
+            await dispatch(updateProduct({
+                id: editingId,
+                product: productForm,
+                token
+            }))
             setEditingId(null);
         } else {
-            dispatch(productAdd(productForm))
+            await dispatch(createProduct({
+                product: productForm,
+                token
+            }))
         }
-
-        console.log('успешно');
 
         setProductForm({
             id: Math.random(),
@@ -50,8 +61,12 @@ export function AdminPage() {
     }
 
     function handleEditClick(product) {
-        setEditingId(product.id);
+        setEditingId(product._id);
         setProductForm(product)
+    }
+
+    function handleDeleteClick(id) {
+        dispatch(deleteProduct({id, token}));
     }
 
     return (
@@ -94,11 +109,15 @@ export function AdminPage() {
                            onChange={handleChange} />
 
                     <Button width="100%" height="42px" type='submit'>{editingId ? 'Сохранить изменения' : 'Добавить товар'}</Button>
+
+                    {error && <div style={{ color: "red", marginTop: "10px" }}>Ошибка - {error}</div>}
                 </form>
 
             </div>
 
             <div className={styles.right}>
+                {status === "loading" && <div>Загрузка товаров...</div>}
+
                 <table className={styles.table}>
                     <thead>
                     <tr>
@@ -113,8 +132,8 @@ export function AdminPage() {
                     </thead>
                     <tbody>
                     {products.map((p) => (
-                        <tr key={p.id}>
-                            <td>{p.id}</td>
+                        <tr key={p._id}>
+                            <td>{p._id}</td>
                             <td>{p.name}</td>
                             <td>{p.category}</td>
                             <td>{p.price} ₽</td>
@@ -124,8 +143,12 @@ export function AdminPage() {
                             </td>
                             <td>
                                 <div className={styles.actions}>
-                                    <Button width='100%' height='32px' onClick={() => handleEditClick(p)}>Изменить</Button>
-                                    <Button width='100%' height='32px' onClick={() => dispatch(productDelete(p.id))}>Удалить</Button>
+                                    <Button width='100%'
+                                            height='32px'
+                                            onClick={() => handleEditClick(p)}>Изменить</Button>
+                                    <Button width='100%'
+                                            height='32px'
+                                            onClick={() => handleDeleteClick(p._id)}>Удалить</Button>
                                 </div>
                             </td>
                         </tr>
