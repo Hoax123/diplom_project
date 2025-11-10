@@ -16,6 +16,15 @@ export function CartPage() {
 
     if (status === "loading") return <Loader message='Загрузка корзины...'/>
 
+    function placeAnOrder() {
+
+        if (items.length) {
+            alert("Вы успешно сделали заказ!")
+        } else {
+            alert("Чтобы оформить заказ необходимо добавить в корзину минимум один товар!")
+        }
+    }
+
     return (
         <div className={styles.page}>
 
@@ -74,8 +83,8 @@ export function CartPage() {
 
                 <div className={styles.summary}>
                     <div className={styles.summaryTitle}>Итого: {total} ₽</div>
-                    <Button width="220px" height="45px">
-                        Оформить заказ
+                    <Button width="220px" height="45px" onClick={placeAnOrder}>
+                        Сделать заказ
                     </Button>
                 </div>
             </div>

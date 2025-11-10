@@ -17,7 +17,7 @@ export async function addToCart(req, res) {
 
         const freshCart = await Cart.findOne({userId: req.user.id}).populate("items.productId")
 
-        res.json({success: true, data: freshCart})
+        return res.json({success: true, data: freshCart})
     }
 
     const existing = cart.items.find(item => item.productId.toString() === productId)

@@ -9,11 +9,21 @@ import {BreedCrumbs} from "../../components/Breedcrumbs/BreedCrumbs.jsx";
 export function ProductPage() {
     const { id } = useParams();
     const {list: products, status, error} = useSelector((state) => state.products);
+    const user = useSelector((state) => state.auth.user);
     const token = useSelector((state) => state.auth.token);
 
     const product = products.find(item => item._id === id);
 
     const dispatch = useDispatch();
+
+    function handleAddToCart() {
+        if (!user || !token) {
+            alert("Чтобы добавить товар в корзину, вы должно быть авторизованы!")
+        }
+
+        dispatch(addToCart({token, productId: product._id, quantity: 1}));
+        alert("Вы успешно добавили товар в корзину!")
+    }
 
     if (!product) {
         return <div className={styles.notFound}>Товар не найден</div>;
@@ -64,8 +74,7 @@ export function ProductPage() {
 
                     </div>
 
-                    <Button width='100%' height='60px' onClick={() =>
-                        dispatch(addToCart({token, productId: product._id, quantity: 1}))}>В корзину</Button>
+                    <Button width='100%' height='60px' onClick={handleAddToCart}>В корзину</Button>
                 </div>
             </div>
         </div>

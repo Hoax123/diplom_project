@@ -43,7 +43,7 @@ export function ProductsList() {
 
 
     return (
-        <>
+        <section id='products'>
             <div className={styles.filters}>
                 <input
                     type="text"
@@ -96,6 +96,6 @@ export function ProductsList() {
                     </div>
                 ))}
             </div>
-        </>
+        </section>
     );
 }

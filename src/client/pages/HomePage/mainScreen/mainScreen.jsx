@@ -2,6 +2,14 @@ import styles from "./mainScreen.module.css";
 import {Button} from "../../../components/Button/Button.jsx";
 
 export function MainScreen() {
+
+    function scrollToProducts() {
+        const element = document.querySelector("#products");
+        if (element) {
+            element.scrollIntoView({behavior: "smooth"});
+        }
+    }
+
     return (
         <section className={styles.hero}>
             <div className={styles.left}>
@@ -9,7 +17,7 @@ export function MainScreen() {
                     <p className={styles.subtitle}>Новый Сезон</p>
                     <h1 className={styles.title}>Осень 2025</h1>
 
-                    <Button width='250px' height='60px'>Смотреть товары</Button>
+                    <Button width='250px' height='60px' onClick={scrollToProducts}>Смотреть товары</Button>
 
                     <p className={styles.note}>
                         на определённые товары скидки в связи с новым сезоном могут не действовать

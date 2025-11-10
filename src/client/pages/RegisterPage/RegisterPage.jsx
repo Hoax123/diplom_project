@@ -12,6 +12,8 @@ export function RegisterPage() {
         login: "",
         password: "",
     });
+    const [successMessage, setSuccessMessage] = useState("");
+    const [clientError, setClientError] = useState("");
 
     const dispatch = useDispatch();
     const {status, error} = useSelector((state) => state.auth);
@@ -20,15 +22,45 @@ export function RegisterPage() {
         const { name, value } = e.target;
         setUserData({...userData, [name]: value});
 
-        console.log(userData)
+        setClientError('')
+        setSuccessMessage('')
     }
+
+    function validForm() {
+        if (!userData.login || !userData.password) {
+            setClientError('Заполните все поля!')
+            return false;
+        }
+
+        if (userData.password.length < 6) {
+            setClientError('Пароль должен быть не менее 6 симолов')
+            return false;
+        }
+
+        if (userData.login.length < 3) {
+            setClientError('Логин должен быть не менее 6 симолов')
+            return false;
+        }
+
+        return true;
+    }
+
+
+
+
 
     async function handleSubmit(e) {
         e.preventDefault();
 
-        if (!userData.login || !userData.password) return
+        const isFormValid = validForm();
 
-        dispatch(registerUser(userData));
+        if (!isFormValid) return
+
+        const resultAction = await dispatch(registerUser(userData));
+
+        if (registerUser.fulfilled.match(resultAction)) {
+            setSuccessMessage('Вы успешно зарегистрировались')
+        }
     }
 
 
@@ -59,6 +91,8 @@ export function RegisterPage() {
 
                 <Button width='100%' height='60px' type='submit'>{status === 'loading' ? <Loader size='20' message=''/> : 'Зарегистрироваться'}</Button>
 
+                {successMessage && <div style={{color: "green"}}>{successMessage}</div>}
+                {clientError && <div style={{color: "red"}}>Ошибка - {clientError}</div>}
                 {error && <div style={{color: "red"}}>Ошибка - {error}</div>}
             </form>
         </div>

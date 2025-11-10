@@ -24,12 +24,13 @@ export function Header() {
                             </div>
 
                             <div className={styles.navLinks}>
-                                <Link to='/admin' className={styles.navLink}>Админ-панель</Link>
-                                <Link to='/cart' className={styles.navLink}>Корзина</Link>
 
-                                <button onClick={() => dispatch(logout())}>
-                                    <Link to='/' className={styles.navLink}>Выйти</Link>
-                                </button>
+                                {user?.role === 'admin' && (<Link to='/admin' className={styles.navLink}>Админ-панель</Link>)}
+                                {user?.role === 'user' && (<Link to='/cart' className={styles.navLink}>Корзина</Link>)}
+
+                                <Link to='/'
+                                      className={styles.navLink}
+                                      onClick={() => dispatch(logout())}>Выйти</Link>
                             </div>
 
                         </div>
