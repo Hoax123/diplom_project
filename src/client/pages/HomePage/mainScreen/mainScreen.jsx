@@ -19,9 +19,6 @@ export function MainScreen() {
 
                     <Button width='250px' height='60px' onClick={scrollToProducts}>Смотреть товары</Button>
 
-                    <p className={styles.note}>
-                        на определённые товары скидки в связи с новым сезоном могут не действовать
-                    </p>
                 </div>
             </div>
 

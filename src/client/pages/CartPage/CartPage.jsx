@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {removeFromCart} from "../../redux/Slices/cart/cartSlice.jsx";
 import {Loader} from "../../components/Loader/Loader.jsx";
 import {BreedCrumbs} from "../../components/Breedcrumbs/BreedCrumbs.jsx";
+import {useAuthGuard} from "../../hooks/useAuthGuard.jsx";
 
 
 export function CartPage() {
@@ -13,6 +14,8 @@ export function CartPage() {
     const status = useSelector((state) => state.cart.status);
     const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.token);
+
+    useAuthGuard('user')
 
     if (status === "loading") return <Loader message='Загрузка корзины...'/>
 

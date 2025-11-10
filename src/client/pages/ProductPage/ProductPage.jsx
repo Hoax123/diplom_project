@@ -19,6 +19,12 @@ export function ProductPage() {
     function handleAddToCart() {
         if (!user || !token) {
             alert("Чтобы добавить товар в корзину, вы должно быть авторизованы!")
+            return
+        }
+
+        if(user.role !== "user") {
+            alert("У вас нет прав на добавление товара в корзину!")
+            return;
         }
 
         dispatch(addToCart({token, productId: product._id, quantity: 1}));

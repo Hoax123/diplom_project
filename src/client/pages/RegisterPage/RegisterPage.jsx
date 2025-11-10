@@ -1,9 +1,9 @@
 import styles from "./RegisterPage.module.css";
 import {Button} from "../../components/Button/Button.jsx";
 import {Input} from "../../components/Input/Input.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {registerUser} from "../../redux/Slices/auth/authSlice.jsx";
+import {clearAuthError, registerUser} from "../../redux/Slices/auth/authSlice.jsx";
 import {Loader} from "../../components/Loader/Loader.jsx";
 import {BreedCrumbs} from "../../components/Breedcrumbs/BreedCrumbs.jsx";
 
@@ -17,6 +17,10 @@ export function RegisterPage() {
 
     const dispatch = useDispatch();
     const {status, error} = useSelector((state) => state.auth);
+
+    useEffect(() => {
+        dispatch(clearAuthError());
+    }, [dispatch]);
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -38,7 +42,7 @@ export function RegisterPage() {
         }
 
         if (userData.login.length < 3) {
-            setClientError('Логин должен быть не менее 6 симолов')
+            setClientError('Логин должен быть не менее 3 симолов')
             return false;
         }
 
@@ -81,7 +85,7 @@ export function RegisterPage() {
                        onChange={handleChange}
                        name='login' />
 
-                <Input type="text"
+                <Input type="password"
                        placeholder='пароль...'
                        width='100%' height='60px'
                        fontSize='17px'

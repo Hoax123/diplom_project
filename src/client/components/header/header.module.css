@@ -94,3 +94,41 @@
     transform: scale(1.05);
 }
 
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+        gap: 1rem;
+    }
+
+    .rightSection {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .authSection,
+    .guestSection {
+        gap: 1rem;
+    }
+
+    .userInfo {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .rightSection {
+        width: 100%;
+    }
+
+    .navLinks {
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+}
+
+

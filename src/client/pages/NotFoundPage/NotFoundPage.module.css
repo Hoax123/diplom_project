@@ -1,5 +1,5 @@
 .page {
-    height: calc(100vh - 150px); /* вычитаем высоту шапки, если есть */
+    height: calc(100vh - 150px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -38,3 +38,16 @@
 .textBlock {
     margin-top: 50px;
 }
+
+@media (max-width: 768px) {
+    .code {
+        font-size: 10rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .code {
+        font-size: 6rem;
+    }
+}
+

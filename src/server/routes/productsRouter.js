@@ -33,7 +33,7 @@ router.delete('/:id',
         const deletedProduct = await deleteProduct(req.params.id);
 
         if (!deletedProduct) {
-            return res.json({success: false, error: 'Product not found'})
+            return res.json({success: false, error: 'Данный товар не найден'})
         }
 
         res.json({success: true, data: deletedProduct})
@@ -50,7 +50,7 @@ router.put('/:id',
         const updatedProduct = await updateProduct(req.params.id, req.body);
 
         if (!updatedProduct) {
-            return res.json({success: false, error: 'Product not found'})
+            return res.json({success: false, error: 'Данный товар не найден'})
         }
 
         res.json({success: true, data: updatedProduct})

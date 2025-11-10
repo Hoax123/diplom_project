@@ -10,7 +10,7 @@ export async function register(req, res) {
 
         const existing = await User.findOne({login})
         if (existing) {
-            return res.json({success: false, error: "User already exist"})
+            return res.json({success: false, error: "Такой пользователь уже существует"})
         }
 
         const hashedPassword = await bcrypt.hash(password, 10)
@@ -34,12 +34,12 @@ export async function login(req, res) {
 
         const user = await User.findOne({login})
         if (!user) {
-            return res.json({success: false, error: 'User does not exist'})
+            return res.json({success: false, error: 'Пользователь не существует'})
         }
 
         const isMatch = await bcrypt.compare(password, user.password)
         if (!isMatch) {
-            return res.json({success: false, error: 'Wrong Password'})
+            return res.json({success: false, error: 'Неправильный пароль'})
         }
 
         const token = jwt.sign(

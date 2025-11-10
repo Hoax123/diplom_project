@@ -96,3 +96,30 @@
     padding: 4rem;
     font-size: 1.5rem;
 }
+
+@media (max-width: 900px) {
+    .page {
+        padding: 2rem 1.5rem;
+    }
+
+    .content {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .imageBlock,
+    .infoBlock,
+    .divider {
+        height: auto;
+    }
+
+    .divider {
+        width: 100%;
+        height: 1px;
+    }
+
+    .imageBlock {
+        width: 100%;
+        max-width: 500px;
+    }
+}

@@ -6,6 +6,7 @@ import {fetchProducts, createProduct, deleteProduct, updateProduct} from "../../
 import {useEffect, useState} from "react";
 import {Loader} from "../../components/Loader/Loader.jsx";
 import {BreedCrumbs} from "../../components/Breedcrumbs/BreedCrumbs.jsx";
+import {useAuthGuard} from "../../hooks/useAuthGuard.jsx";
 
 export function AdminPage() {
     const [productForm, setProductForm] = useState({
@@ -21,6 +22,8 @@ export function AdminPage() {
     const {list: products, error, status} = useSelector((state) => state.products);
     const token = useSelector((state) => state.auth.token);
     const dispatch = useDispatch();
+
+    useAuthGuard('admin')
 
     useEffect(() => {
         if (status === 'idle') {

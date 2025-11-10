@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express"
 import mongoose from "mongoose"
 import cors from "cors"
@@ -11,7 +14,9 @@ const port = 5003
 app.use(cors({origin: "*"}))
 app.use(express.json())
 
-mongoose.connect('mongodb://localhost:27017/products')
+mongoose.connect(
+    process.env.MONGODB_CONNECTION_STRING
+)
     .then(() => console.log("mongodb connected!"))
     .catch((err) => console.log(err))
 
