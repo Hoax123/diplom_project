@@ -1,4 +1,4 @@
-import styles from "./adminPage.module.css";
+import styles from "./AdminPage.module.css";
 import {Button} from "../../components/Button/Button.jsx";
 import {Input} from "../../components/Input/Input.jsx";
 import {useDispatch, useSelector} from "react-redux";

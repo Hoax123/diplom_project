@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import styles from "./productPage.module.css";
+import styles from "./ProductPage.module.css";
 import {Button} from "../../components/Button/Button.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {addToCart} from "../../redux/Slices/cart/cartSlice.jsx";
