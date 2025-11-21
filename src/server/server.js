@@ -9,7 +9,6 @@ import authRouter from "./routes/authRouter.js";
 import cartRouter from "./routes/cartRouter.js"
 
 const app = express()
-const port = 5003
 
 app.use(cors({origin: "*"}))
 app.use(express.json())
@@ -24,6 +23,6 @@ app.use('/api/products', productsRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/cart', cartRouter)
 
-app.listen(port, () => {
-    console.log("Server is running on port " + port)
+app.listen(process.env.PORT, () => {
+    console.log("Server is running on port " + process.env.PORT)
 })

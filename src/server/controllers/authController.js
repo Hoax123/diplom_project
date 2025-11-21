@@ -1,8 +1,11 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import {User} from '../models/user.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 
-const JWT_SECRET = "supersecret"
+const JWT_SECRET = process.env.JWT_SECRET
 
 export async function register(req, res) {
     try {

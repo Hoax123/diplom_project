@@ -1,9 +1,11 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 
+const API_URL = import.meta.env.VITE_API_URL
+
 export const fetchProducts = createAsyncThunk(
     "/products/fetchProducts",
     async (_, thunkAPI) => {
-        const response = await fetch("http://localhost:5003/api/products");
+        const response = await fetch(`${API_URL}/products`);
         const data = await response.json()
 
         if (!data.success) return thunkAPI.rejectWithValue(data.error);
@@ -15,7 +17,7 @@ export const fetchProducts = createAsyncThunk(
 export const createProduct = createAsyncThunk(
     "/products/create",
     async ({product, token}, thunkAPI) => {
-        const response = await fetch("http://localhost:5003/api/products", {
+        const response = await fetch(`${API_URL}/products`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -34,7 +36,7 @@ export const createProduct = createAsyncThunk(
 export const updateProduct = createAsyncThunk(
     "/products/update",
     async ({id, product, token}, thunkAPI) => {
-        const response = await fetch(`http://localhost:5003/api/products/${id}`, {
+        const response = await fetch(`${API_URL}/products/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -53,7 +55,7 @@ export const updateProduct = createAsyncThunk(
 export const deleteProduct = createAsyncThunk(
     "/products/delete",
     async ({id, token}, thunkAPI) => {
-        const response = await fetch(`http://localhost:5003/api/products/${id}`, {
+        const response = await fetch(`${API_URL}/products/${id}`, {
             method: "DELETE",
             headers: {
                 Authorization: `Bearer ${token}`,
