@@ -12,7 +12,15 @@ export async function register(req, res) {
         const {login, password, role} = req.body
 
         if (!login || !password) {
-            return res.status(400).json({success: false, message: 'Логин и пароль обязательны!'})
+            return res.status(400).json({success: false, error: 'Логин и пароль обязательны!'})
+        }
+
+        if (login.trim().length < 3) {
+            return res.status(400).json({success: false, error: "Логин должен содержать минимум 3 символа!"})
+        }
+
+        if (password.length < 6) {
+            return res.status(400).json({success: false, error: "Пароль должен содержать минимум 6 символов!"})
         }
 
         const existing = await User.findOne({login})
@@ -58,6 +66,6 @@ export async function login(req, res) {
         return res.status(200).json({success: true, token, user: {id: user._id, login: user.login, role: user.role}})
 
     } catch(error) {
-        return res.json({success: false, error: "Ошибка сервера"})
+        return res.status(500).json({success: false, error: "Ошибка сервера"})
     }
 }

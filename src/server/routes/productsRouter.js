@@ -7,9 +7,9 @@ import {requireRole} from "../middlewares/role.js";
 router.get('/', async (req, res) => {
     try {
         const products = await getProducts()
-        res.json({success: true, data: products})
+        res.status(200).json({success: true, data: products})
     } catch (error) {
-        res.json({success: false, error: error.message})
+        res.status(500).json({success: false, error: error.message})
     }
 })
 
@@ -19,9 +19,9 @@ router.post('/',
     async (req, res) => {
     try {
         const createdProduct = await createProduct(req.body)
-        res.json({success: true, data: createdProduct})
+        res.status(201).json({success: true, data: createdProduct})
     } catch (error) {
-        res.json({success: false, error: error.message})
+        res.status(400).json({success: false, error: error.message})
     }
 })
 
@@ -33,12 +33,12 @@ router.delete('/:id',
         const deletedProduct = await deleteProduct(req.params.id);
 
         if (!deletedProduct) {
-            return res.json({success: false, error: 'Данный товар не найден'})
+            return res.status(404).json({success: false, error: 'Данный товар не найден'})
         }
 
-        res.json({success: true, data: deletedProduct})
+        res.status(200).json({success: true, data: deletedProduct})
     } catch (error) {
-        res.json({success: false, error: error.message})
+        res.status(400).json({success: false, error: error.message})
     }
 })
 
@@ -50,12 +50,12 @@ router.put('/:id',
         const updatedProduct = await updateProduct(req.params.id, req.body);
 
         if (!updatedProduct) {
-            return res.json({success: false, error: 'Данный товар не найден'})
+            return res.status(404).json({success: false, error: 'Данный товар не найден'})
         }
 
-        res.json({success: true, data: updatedProduct})
+        res.status(200).json({success: true, data: updatedProduct})
     } catch (error) {
-        res.json({success: false, error: error.message})
+        res.status(400).json({success: false, error: error.message})
     }
 })
 

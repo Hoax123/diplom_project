@@ -27,4 +27,6 @@ dist-ssr
 *.sln
 *.sw?
 
+src_complete_1.txt
 src_complete.txt
+collect_src.sh
