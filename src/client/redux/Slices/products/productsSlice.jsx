@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
-import {data} from "react-router-dom";
+import {handleHttpError} from "../../utils/handleHttpError.js";
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -9,17 +9,13 @@ export const fetchProducts = createAsyncThunk(
         try {
             const response = await fetch(`${API_URL}/products`);
 
-            if (!response.ok) {
-                throw new Error(`${response.status} : ${response.statusText}`);
-            }
-
-            const data = await response.json()
+            const data = await handleHttpError(response);
 
             if (!data.success) return thunkAPI.rejectWithValue(data.error);
 
             return data.data;
         } catch (error) {
-            thunkAPI.rejectWithValue(error.message);
+            return thunkAPI.rejectWithValue(error.message);
         }
     }
 )
@@ -37,17 +33,13 @@ export const createProduct = createAsyncThunk(
                 body: JSON.stringify(product),
             })
 
-            if (!response.ok) {
-                throw new Error(`${response.status} : ${response.statusText}`);
-            }
-
-            const data = await response.json()
+            const data = await handleHttpError(response);
 
             if (!data.success) return thunkAPI.rejectWithValue(data.error);
 
             return data.data
         } catch (error) {
-            thunkAPI.rejectWithValue(error.message);
+            return thunkAPI.rejectWithValue(error.message);
         }
     }
 )
@@ -65,17 +57,13 @@ export const updateProduct = createAsyncThunk(
                 body: JSON.stringify(product),
             })
 
-            if (!response.ok) {
-                throw new Error(`${response.status} : ${response.statusText}`);
-            }
-
-            const data = await response.json()
+            const data = await handleHttpError(response);
 
             if (!data.success) return thunkAPI.rejectWithValue(data.error);
 
             return data.data
         } catch (error) {
-            thunkAPI.rejectWithValue(error.message);
+            return thunkAPI.rejectWithValue(error.message);
         }
     }
 )
@@ -91,17 +79,13 @@ export const deleteProduct = createAsyncThunk(
                 }
             })
 
-            if (!response.ok) {
-                throw new Error(`${response.status} : ${response.statusText}`);
-            }
-
-            const data = await response.json()
+            const data = await handleHttpError(response);
 
             if (!data.success) return thunkAPI.rejectWithValue(data.error);
 
             return id
         } catch (error) {
-            thunkAPI.rejectWithValue(error.message);
+            return thunkAPI.rejectWithValue(error.message);
         }
     }
 )

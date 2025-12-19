@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import {data} from "react-router-dom";
+import {handleHttpError} from "../../utils/handleHttpError.js";
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -15,11 +15,7 @@ export const registerUser = createAsyncThunk(
                 body: JSON.stringify({login, password, role}),
             })
 
-            if (!response.ok) {
-                throw new Error(`${response.status} : ${response.statusText}`);
-            }
-
-            const data = await response.json()
+            const data = await handleHttpError(response)
 
             if (!data.success) return thunkAPI.rejectWithValue(data.error || 'server error')
 
@@ -42,11 +38,7 @@ export const loginUser = createAsyncThunk(
                 body: JSON.stringify({login, password}),
             })
 
-            if (!response.ok) {
-                throw new Error(`${response.status} : ${response.statusText}`);
-            }
-
-            const data = await response.json()
+            const data = await handleHttpError(response)
 
             if (!data.success) return thunkAPI.rejectWithValue(data.error || 'server error')
 

@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {data} from "react-router-dom";
+import {handleHttpError} from "../../utils/handleHttpError.js";
 
 const API = import.meta.env.VITE_API_URL + '/cart'
 
@@ -14,17 +14,13 @@ export const fetchCart = createAsyncThunk(
                 }
             })
 
-            if (!response.ok) {
-                throw new Error(`${response.status} : ${response.statusText}`);
-            }
-
-            const data = await response.json()
+           const data = await handleHttpError(response)
 
             if (!data.success) return thunkAPI.rejectWithValue(data.error)
 
             return data.data
         } catch (error) {
-            thunkAPI.rejectWithValue(error.message)
+            return thunkAPI.rejectWithValue(error.message)
         }
     }
 )
@@ -42,17 +38,13 @@ export const addToCart = createAsyncThunk(
                 body: JSON.stringify({productId, quantity})
             })
 
-            if (!response.ok) {
-                throw new Error(`${response.status} : ${response.statusText}`);
-            }
-
-            const data = await response.json()
+            const data = await handleHttpError(response)
 
             if (!data.success) return thunkAPI.rejectWithValue(data.error)
 
             return data.data
         } catch (error) {
-            thunkAPI.rejectWithValue(error.message)
+            return thunkAPI.rejectWithValue(error.message)
         }
     }
 )
@@ -68,17 +60,13 @@ export const removeFromCart = createAsyncThunk(
                 }
             })
 
-            if (!response.ok) {
-                throw new Error(`${response.status} : ${response.statusText}`);
-            }
-
-            const data = await response.json()
+            const data = await handleHttpError(response)
 
             if (!data.success) return thunkAPI.rejectWithValue(data.error)
 
             return data.data
         } catch (error) {
-            thunkAPI.rejectWithValue(error.message)
+            return thunkAPI.rejectWithValue(error.message)
         }
     }
 )
