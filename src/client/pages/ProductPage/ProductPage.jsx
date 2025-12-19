@@ -22,7 +22,7 @@ export function ProductPage() {
             return
         }
 
-        if(user.role !== "user") {
+        if(user.role === "guest") {
             alert("У вас нет прав на добавление товара в корзину!")
             return;
         }

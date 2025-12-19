@@ -1,44 +1,62 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import {data} from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL
 
 export const registerUser = createAsyncThunk(
     'auth/registerUser',
     async ({login, password, role = 'user'}, thunkAPI) => {
-        const response = await fetch(`${API_URL}/auth/register`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({login, password, role}),
-        })
+        try {
+            const response = await fetch(`${API_URL}/auth/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({login, password, role}),
+            })
 
-        const data = await response.json()
+            if (!response.ok) {
+                throw new Error(`${response.status} : ${response.statusText}`);
+            }
 
-        if (!data.success) return thunkAPI.rejectWithValue(data.error || 'server error')
+            const data = await response.json()
 
-        return data.data
+            if (!data.success) return thunkAPI.rejectWithValue(data.error || 'server error')
+
+            return data.data
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.message)
+        }
     }
 )
 
 export const loginUser = createAsyncThunk(
     'auth/loginUser',
     async ({login, password}, thunkAPI) => {
-        const response = await fetch(`${API_URL}/auth/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({login, password}),
-        })
-        const data = await response.json()
+        try {
+            const response = await fetch(`${API_URL}/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({login, password}),
+            })
 
-        if (!data.success) return thunkAPI.rejectWithValue(data.error || 'server error')
+            if (!response.ok) {
+                throw new Error(`${response.status} : ${response.statusText}`);
+            }
 
-        localStorage.setItem('token', data.token)
-        localStorage.setItem('user', JSON.stringify(data.user))
+            const data = await response.json()
 
-        return data
+            if (!data.success) return thunkAPI.rejectWithValue(data.error || 'server error')
+
+            localStorage.setItem('token', data.token)
+            localStorage.setItem('user', JSON.stringify(data.user))
+
+            return data
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.message)
+        }
     }
 )
 

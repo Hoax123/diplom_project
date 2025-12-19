@@ -3,23 +3,23 @@ import mongoose from "mongoose";
 const productSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
+        required: [true, 'Имя товара обязательно'],
     },
     category: {
         type: String,
-        required: true,
+        required: [true, 'Категория товара обязательна'],
     },
     price: {
         type: Number,
-        required: true,
+        required: [true, 'Цена товара обязательна'],
     },
     quantity: {
         type: Number,
-        required: true,
+        required: [true, 'Количество товара обязательно'],
     },
     image: {
         type: String,
-        required: true,
+        required: [true, 'Изображение для товара обязательно'],
     }
 })
 

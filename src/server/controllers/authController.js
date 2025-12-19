@@ -11,9 +11,13 @@ export async function register(req, res) {
     try {
         const {login, password, role} = req.body
 
+        if (!login || !password) {
+            return res.status(400).json({success: false, message: 'Логин и пароль обязательны!'})
+        }
+
         const existing = await User.findOne({login})
         if (existing) {
-            return res.json({success: false, error: "Такой пользователь уже существует"})
+            return res.status(409).json({success: false, error: "Такой пользователь уже существует"})
         }
 
         const hashedPassword = await bcrypt.hash(password, 10)
@@ -24,10 +28,10 @@ export async function register(req, res) {
             role: role || 'user',
         })
 
-        res.json({success: true, data: {id: user._id, login: user.login, role: user.role}
+        res.status(201).json({success: true, data: {id: user._id, login: user.login, role: user.role}
         })
     } catch (error) {
-        return res.json({success: false, error: error.message})
+        return res.status(500).json({success: false, error: "Ошибка сервера"})
     }
 }
 
@@ -37,12 +41,12 @@ export async function login(req, res) {
 
         const user = await User.findOne({login})
         if (!user) {
-            return res.json({success: false, error: 'Пользователь не существует'})
+            return res.status(404).json({success: false, error: 'Пользователь не существует'})
         }
 
         const isMatch = await bcrypt.compare(password, user.password)
         if (!isMatch) {
-            return res.json({success: false, error: 'Неправильный пароль'})
+            return res.status(401).json({success: false, error: 'Неправильный пароль'})
         }
 
         const token = jwt.sign(
@@ -51,9 +55,9 @@ export async function login(req, res) {
             {expiresIn: '7d'}
         )
 
-        return res.json({success: true, token, user: {id: user._id, login: user.login, role: user.role}})
+        return res.status(200).json({success: true, token, user: {id: user._id, login: user.login, role: user.role}})
 
     } catch(error) {
-        return res.json({success: false, error: error.message})
+        return res.json({success: false, error: "Ошибка сервера"})
     }
 }

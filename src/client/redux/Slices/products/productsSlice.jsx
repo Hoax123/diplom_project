@@ -1,71 +1,108 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
+import {data} from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL
 
 export const fetchProducts = createAsyncThunk(
     "/products/fetchProducts",
     async (_, thunkAPI) => {
-        const response = await fetch(`${API_URL}/products`);
-        const data = await response.json()
+        try {
+            const response = await fetch(`${API_URL}/products`);
 
-        if (!data.success) return thunkAPI.rejectWithValue(data.error);
+            if (!response.ok) {
+                throw new Error(`${response.status} : ${response.statusText}`);
+            }
 
-        return data.data;
+            const data = await response.json()
+
+            if (!data.success) return thunkAPI.rejectWithValue(data.error);
+
+            return data.data;
+        } catch (error) {
+            thunkAPI.rejectWithValue(error.message);
+        }
     }
 )
 
 export const createProduct = createAsyncThunk(
     "/products/create",
     async ({product, token}, thunkAPI) => {
-        const response = await fetch(`${API_URL}/products`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(product),
-        })
-        const data = await response.json()
+        try {
+            const response = await fetch(`${API_URL}/products`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(product),
+            })
 
-        if (!data.success) return thunkAPI.rejectWithValue(data.error);
+            if (!response.ok) {
+                throw new Error(`${response.status} : ${response.statusText}`);
+            }
 
-        return data.data
+            const data = await response.json()
+
+            if (!data.success) return thunkAPI.rejectWithValue(data.error);
+
+            return data.data
+        } catch (error) {
+            thunkAPI.rejectWithValue(error.message);
+        }
     }
 )
 
 export const updateProduct = createAsyncThunk(
     "/products/update",
     async ({id, product, token}, thunkAPI) => {
-        const response = await fetch(`${API_URL}/products/${id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(product),
-        })
-        const data = await response.json()
+        try {
+            const response = await fetch(`${API_URL}/products/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(product),
+            })
 
-        if (!data.success) return thunkAPI.rejectWithValue(data.error);
+            if (!response.ok) {
+                throw new Error(`${response.status} : ${response.statusText}`);
+            }
 
-        return data.data
+            const data = await response.json()
+
+            if (!data.success) return thunkAPI.rejectWithValue(data.error);
+
+            return data.data
+        } catch (error) {
+            thunkAPI.rejectWithValue(error.message);
+        }
     }
 )
 
 export const deleteProduct = createAsyncThunk(
     "/products/delete",
     async ({id, token}, thunkAPI) => {
-        const response = await fetch(`${API_URL}/products/${id}`, {
-            method: "DELETE",
-            headers: {
-                Authorization: `Bearer ${token}`,
+        try {
+            const response = await fetch(`${API_URL}/products/${id}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+
+            if (!response.ok) {
+                throw new Error(`${response.status} : ${response.statusText}`);
             }
-        })
-        const data = await response.json()
 
-        if (!data.success) return thunkAPI.rejectWithValue(data.error);
+            const data = await response.json()
 
-        return id
+            if (!data.success) return thunkAPI.rejectWithValue(data.error);
+
+            return id
+        } catch (error) {
+            thunkAPI.rejectWithValue(error.message);
+        }
     }
 )
 

@@ -2,7 +2,7 @@ import {Cart} from "../models/cart.js";
 
 export async function getCart(req, res) {
     const cart = await Cart.findOne({userId: req.user.id}).populate("items.productId")
-    return res.json({success: true, data: cart || {items: [] } })
+    return res.status(200).json({success: true, data: cart || {items: [] } })
 }
 
 export async function addToCart(req, res) {
@@ -17,7 +17,7 @@ export async function addToCart(req, res) {
 
         const freshCart = await Cart.findOne({userId: req.user.id}).populate("items.productId")
 
-        return res.json({success: true, data: freshCart})
+        return res.status(200).json({success: true, data: freshCart})
     }
 
     const existing = cart.items.find(item => item.productId.toString() === productId)
@@ -31,7 +31,7 @@ export async function addToCart(req, res) {
 
     const freshCart = await Cart.findOne({userId: req.user.id}).populate("items.productId")
 
-    return res.json({success: true, data: freshCart})
+    return res.status(200).json({success: true, data: freshCart})
 }
 
 export async function removeFromCart(req, res) {
@@ -39,7 +39,7 @@ export async function removeFromCart(req, res) {
     const cart = await Cart.findOne({userId: req.user.id})
 
     if (!cart) {
-        return res.json({success: false, error: "Cart not found"})
+        return res.status(404).json({success: false, error: "Корзина не найдена"})
     }
 
     cart.items = cart.items.filter(item => item.productId.toString() !== productId)
@@ -47,5 +47,5 @@ export async function removeFromCart(req, res) {
 
     const freshCart = await Cart.findOne({userId: req.user.id}).populate("items.productId")
 
-    return res.json({success: true, data: freshCart})
+    return res.status(200).json({success: true, data: freshCart})
 }

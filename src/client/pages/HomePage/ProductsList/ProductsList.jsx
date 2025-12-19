@@ -33,6 +33,7 @@ export function ProductsList() {
             if (sort === 'expensive') return b.price - a.price
             if (sort === 'cheap') return a.price - b.price
             if (sort === 'stock') return b.quantity - a.quantity
+            return 0
         })
 
 
