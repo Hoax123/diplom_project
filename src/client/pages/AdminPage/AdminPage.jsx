@@ -39,24 +39,44 @@ export function AdminPage() {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        if (!productForm.name || !productForm.category) return
-
-        if (editingId) {
-            await dispatch(updateProduct({
-                id: editingId,
-                product: productForm,
-                token
-            }))
-            setEditingId(null);
-        } else {
-            await dispatch(createProduct({
-                product: productForm,
-                token
-            }))
+        if (!productForm.name || !productForm.category) {
+            alert("Заполните название и категорию!")
+            return;
         }
 
+        if (!productForm.price || isNaN(Number(productForm.price))) {
+            alert("Цена товара обязательна и должна быть числом")
+            return;
+        }
+
+        if (!productForm.quantity || isNaN(Number(productForm.quantity))) {
+            alert("Количество товара обязательно и должна быть числом")
+            return;
+        }
+
+        if (!productForm.image) {
+            alert("Добвьте ссылку на изображение!")
+            return;
+        }
+
+        try {
+            if (editingId) {
+                await dispatch(updateProduct({
+                    id: editingId,
+                    product: productForm,
+                    token
+                }))
+                setEditingId(null);
+            } else {
+                await dispatch(createProduct({
+                    product: productForm,
+                    token
+                }))
+            }
+        } catch (error) {
+            alert(`Ошибка: ${error.message}`)
+        }
         setProductForm({
-            id: Math.random(),
             name: "",
             category: "",
             price: "",

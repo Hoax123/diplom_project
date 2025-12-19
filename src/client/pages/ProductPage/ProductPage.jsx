@@ -16,7 +16,7 @@ export function ProductPage() {
 
     const dispatch = useDispatch();
 
-    function handleAddToCart() {
+    async function handleAddToCart() {
         if (!user || !token) {
             alert("Чтобы добавить товар в корзину, вы должно быть авторизованы!")
             return
@@ -27,8 +27,21 @@ export function ProductPage() {
             return;
         }
 
-        dispatch(addToCart({token, productId: product._id, quantity: 1}));
-        alert("Вы успешно добавили товар в корзину!")
+        try {
+            let result = await dispatch(addToCart({token, productId: product._id, quantity: 1}));
+
+            if (result) {
+                alert("Вы успешно добавили товар в корзину!")
+            }
+        } catch (error) {
+            if (error.message.includes('401') || error.message.includes('403')) {
+                alert('Ошибка авторизации')
+            } else if (error.message.includes('404')) {
+                alert("Товар не найден")
+            } else {
+                alert(`Не удалось добавить товар в корзину: ${error.message}`)
+            }
+        }
     }
 
     if (!product) {
