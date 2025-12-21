@@ -10,14 +10,13 @@ export function ProductPage() {
     const { id } = useParams();
     const {list: products, status, error} = useSelector((state) => state.products);
     const user = useSelector((state) => state.auth.user);
-    const token = useSelector((state) => state.auth.token);
 
     const product = products.find(item => item._id === id);
 
     const dispatch = useDispatch();
 
     async function handleAddToCart() {
-        if (!user || !token) {
+        if (!user) {
             alert("Чтобы добавить товар в корзину, вы должно быть авторизованы!")
             return
         }
@@ -28,7 +27,7 @@ export function ProductPage() {
         }
 
         try {
-            let result = await dispatch(addToCart({token, productId: product._id, quantity: 1}));
+            let result = await dispatch(addToCart({productId: product._id, quantity: 1}));
 
             if (result) {
                 alert("Вы успешно добавили товар в корзину!")

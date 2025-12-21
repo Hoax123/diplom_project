@@ -63,9 +63,21 @@ export async function login(req, res) {
             {expiresIn: '7d'}
         )
 
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'strict',
+            maxAge: 7*24*60*60*1000,
+        })
+
         return res.status(200).json({success: true, token, user: {id: user._id, login: user.login, role: user.role}})
 
     } catch(error) {
         return res.status(500).json({success: false, error: "Ошибка сервера"})
     }
+}
+
+export function logout(req, res) {
+    res.clearCookie('token')
+    return res.status(200).json({success: true, message: "Вы вышли из системы"})
 }

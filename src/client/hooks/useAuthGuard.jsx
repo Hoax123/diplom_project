@@ -4,17 +4,16 @@ import {useNavigate} from "react-router-dom";
 
 export function useAuthGuard(requireRole = null) {
     const user = useSelector((state) => state.auth.user);
-    const token = useSelector((state) => state.auth.token);
     const navigate = useNavigate();
 
-    const prevAuthState = useRef({user: null, token: null});
+    const prevAuthState = useRef(null);
 
     useEffect(() => {
-        const authChanged = user !== prevAuthState.current.user || token !== prevAuthState.current.token;
+        const authChanged = user !== prevAuthState.current
 
 
         if (authChanged) {
-            if (!user || !token) {
+            if (!user) {
                 navigate('/login', {replace: true});
             } else if (requireRole && requireRole !== user.role) {
                 alert('У вас нет доступа к этой странице!')
@@ -22,6 +21,6 @@ export function useAuthGuard(requireRole = null) {
             }
         }
 
-        prevAuthState.current = {user, token}
-    }, [user, token, requireRole, navigate]);
+        prevAuthState.current = user
+    }, [user, requireRole, navigate]);
 }

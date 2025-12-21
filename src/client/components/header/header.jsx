@@ -1,7 +1,8 @@
 import {Link} from "react-router-dom";
 import styles from "./header.module.css";
 import {useDispatch, useSelector} from "react-redux";
-import {logout} from "../../redux/Slices/auth/authSlice.jsx";
+import {logoutUser} from "../../redux/Slices/auth/authSlice.jsx";
+import {clearCart} from "../../redux/Slices/cart/cartSlice.jsx";
 
 export function Header() {
     const dispatch = useDispatch();
@@ -30,7 +31,10 @@ export function Header() {
 
                                 <Link to='/'
                                       className={styles.navLink}
-                                      onClick={() => dispatch(logout())}>Выйти</Link>
+                                      onClick={() => {
+                                          dispatch(logoutUser())
+                                          dispatch(clearCart())
+                                      }}>Выйти</Link>
                             </div>
 
                         </div>

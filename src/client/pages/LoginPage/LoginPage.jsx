@@ -35,8 +35,7 @@ export function LoginPage() {
         const resultAction = await dispatch(loginUser(userData));
 
         if (loginUser.fulfilled.match(resultAction)) {
-            const token = resultAction.payload.token;
-            dispatch(fetchCart({token}));
+            dispatch(fetchCart());
             navigate("/");
         }
     }

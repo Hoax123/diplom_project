@@ -20,7 +20,6 @@ export function AdminPage() {
     const [editingId, setEditingId] = useState(null);
 
     const {list: products, error, status} = useSelector((state) => state.products);
-    const token = useSelector((state) => state.auth.token);
     const dispatch = useDispatch();
 
     useAuthGuard('admin')
@@ -64,14 +63,16 @@ export function AdminPage() {
                 await dispatch(updateProduct({
                     id: editingId,
                     product: productForm,
-                    token
                 }))
                 setEditingId(null);
             } else {
-                await dispatch(createProduct({
-                    product: productForm,
-                    token
-                }))
+                const payload = {
+                    ...productForm,
+                    price: Number(String(productForm.price).replace(',', '.')),
+                    quantity: Number(productForm.quantity),
+                }
+
+                await dispatch(createProduct(payload))
             }
         } catch (error) {
             alert(`Ошибка: ${error.message}`)
@@ -91,7 +92,7 @@ export function AdminPage() {
     }
 
     function handleDeleteClick(id) {
-        dispatch(deleteProduct({id, token}));
+        dispatch(deleteProduct({id}));
     }
 
     return (

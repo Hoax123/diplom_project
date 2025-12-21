@@ -7,11 +7,16 @@ import cors from "cors"
 import productsRouter from "./routes/productsRouter.js"
 import authRouter from "./routes/authRouter.js";
 import cartRouter from "./routes/cartRouter.js"
+import cookieParser from "cookie-parser";
 
 const app = express()
 
-app.use(cors({origin: "*"}))
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+}))
 app.use(express.json())
+app.use(cookieParser())
 
 mongoose.connect(
     process.env.MONGODB_CONNECTION_STRING

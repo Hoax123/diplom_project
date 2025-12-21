@@ -12,13 +12,13 @@ import {fetchCart} from "./client/redux/Slices/cart/cartSlice.jsx";
 
 function App() {
     const dispatch = useDispatch();
-    const token = useSelector(state => state.auth.token)
+    const user = useSelector(state => state.auth.user);
 
     useEffect(() => {
-        if (token) {
-            dispatch(fetchCart({token}));
+        if (user) {
+            dispatch(fetchCart());
         }
-    }, [token, dispatch])
+    }, [user, dispatch])
 
 
     return (

@@ -13,6 +13,7 @@ export const registerUser = createAsyncThunk(
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({login, password, role}),
+                credentials: 'include',
             })
 
             const data = await handleHttpError(response)
@@ -36,14 +37,32 @@ export const loginUser = createAsyncThunk(
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({login, password}),
+                credentials: 'include',
             })
 
             const data = await handleHttpError(response)
 
             if (!data.success) return thunkAPI.rejectWithValue(data.error || 'server error')
 
-            localStorage.setItem('token', data.token)
             localStorage.setItem('user', JSON.stringify(data.user))
+            return data.user
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.message)
+        }
+    }
+)
+
+export const logoutUser = createAsyncThunk(
+    'auth/logoutUser',
+    async (_, thunkAPI) => {
+        try {
+            const response = await fetch(`${API_URL}/auth/logout`, {
+                method: 'POST',
+                credentials: 'include',
+            })
+            const data = await handleHttpError(response)
+
+            localStorage.removeItem('user')
 
             return data
         } catch (error) {
@@ -54,7 +73,7 @@ export const loginUser = createAsyncThunk(
 
 const initialState = {
     user: JSON.parse(localStorage.getItem('user')) || null,
-    token: localStorage.getItem('token') || null,
+    token: null,
     status: "idle",
     error: null,
 }
@@ -63,14 +82,6 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        logout(state) {
-            state.user = null
-            state.token = null
-            state.status = "idle"
-            state.error = null
-            localStorage.removeItem('token')
-            localStorage.removeItem('user')
-        },
         clearAuthError(state) {
             state.error = null
         }
@@ -96,16 +107,21 @@ const authSlice = createSlice({
             })
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.status = 'succeeded'
-                state.token = action.payload.token
-                state.user = action.payload.user
+                state.token = null
+                state.user = action.payload
 
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.status = 'failed'
                 state.error = action.payload
             })
+
+            .addCase(logoutUser.fulfilled, (state, action) => {
+                state.user = null
+                state.status = 'idle'
+            })
     }
 })
 
-export const {logout, clearAuthError} = authSlice.actions
+export const {clearAuthError} = authSlice.actions
 export default authSlice.reducer

@@ -5,13 +5,11 @@ const API = import.meta.env.VITE_API_URL + '/cart'
 
 export const fetchCart = createAsyncThunk(
     'cart/fetchCart',
-    async ({ token }, thunkAPI) => {
+    async (_, thunkAPI) => {
         try {
             const response = await fetch(API, {
                 method: 'GET',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
+                credentials: 'include'
             })
 
            const data = await handleHttpError(response)
@@ -27,15 +25,15 @@ export const fetchCart = createAsyncThunk(
 
 export const addToCart = createAsyncThunk(
     'cart/addToCart',
-    async ({ token, productId, quantity = 1}, thunkAPI) => {
+    async ({productId, quantity = 1}, thunkAPI) => {
         try {
             const response = await fetch(`${API}/add`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify({productId, quantity})
+                body: JSON.stringify({productId, quantity}),
+                credentials: 'include',
             })
 
             const data = await handleHttpError(response)
@@ -51,13 +49,11 @@ export const addToCart = createAsyncThunk(
 
 export const removeFromCart = createAsyncThunk(
     'cart/removeFromCart',
-    async ({ token, productId }, thunkAPI) => {
+    async ({ productId }, thunkAPI) => {
         try {
             const response = await fetch(`${API}/${productId}`, {
                 method: 'DELETE',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
+                credentials: 'include'
             })
 
             const data = await handleHttpError(response)

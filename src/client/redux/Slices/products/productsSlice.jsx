@@ -22,13 +22,13 @@ export const fetchProducts = createAsyncThunk(
 
 export const createProduct = createAsyncThunk(
     "/products/create",
-    async ({product, token}, thunkAPI) => {
+    async (product, thunkAPI) => {
         try {
             const response = await fetch(`${API_URL}/products`, {
                 method: "POST",
+                credentials: 'include',
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify(product),
             })
@@ -46,13 +46,13 @@ export const createProduct = createAsyncThunk(
 
 export const updateProduct = createAsyncThunk(
     "/products/update",
-    async ({id, product, token}, thunkAPI) => {
+    async ({id, product}, thunkAPI) => {
         try {
             const response = await fetch(`${API_URL}/products/${id}`, {
                 method: "PUT",
+                credentials: 'include',
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify(product),
             })
@@ -70,13 +70,11 @@ export const updateProduct = createAsyncThunk(
 
 export const deleteProduct = createAsyncThunk(
     "/products/delete",
-    async ({id, token}, thunkAPI) => {
+    async ({id}, thunkAPI) => {
         try {
             const response = await fetch(`${API_URL}/products/${id}`, {
                 method: "DELETE",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
+                credentials: 'include'
             })
 
             const data = await handleHttpError(response);
@@ -147,7 +145,7 @@ const productsSlice = createSlice({
             })
 
 
-            .addCase(deleteProduct.pending, (state, action) => {
+            .addCase(deleteProduct.pending, (state) => {
                 state.status = 'loading'
                 state.error = null
             })
