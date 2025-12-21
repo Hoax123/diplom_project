@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {handleHttpError} from "../../utils/handleHttpError.js";
 
-const API = import.meta.env.VITE_API_URL + '/cart'
+const API_URL = import.meta.env.VITE_API_URL + '/cart'
 
 export const fetchCart = createAsyncThunk(
     'cart/fetchCart',
