@@ -38,6 +38,8 @@ export function CartPage() {
             <div className={styles.layout}>
                 <div className={styles.items}>
                     {items.map((item) => {
+                        if (!item || !item.productId) return null;
+
                         const prod = typeof item.productId === "object" ? item.productId : null;
                         const id = prod ? prod._id : item.productId;
 
@@ -81,7 +83,12 @@ export function CartPage() {
                         );
                     })}
 
-                    {items.length === 0 && <div>Корзина пуста</div>}
+                    {items.length === 0 && (
+                        <div className={styles.emptyCart}>
+                            <p>Корзина пуста</p>
+                            <Link to='/' className={styles.shopLink}>Перейти к покупкам</Link>
+                        </div>
+                    )}
                 </div>
 
                 <div className={styles.summary}>

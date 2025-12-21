@@ -13,12 +13,14 @@ import {fetchCart} from "./client/redux/Slices/cart/cartSlice.jsx";
 function App() {
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.user);
+    const cartStatus = useSelector(state => state.cart.status)
+    const userId = user?.id
 
     useEffect(() => {
-        if (user) {
+        if (userId && cartStatus === 'idle') {
             dispatch(fetchCart());
         }
-    }, [user, dispatch])
+    }, [userId, cartStatus, dispatch])
 
 
     return (

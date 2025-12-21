@@ -1,6 +1,6 @@
 import styles from "./ProductsList.module.css";
 import {Link} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchProducts} from "../../../redux/Slices/products/productsSlice.jsx";
 import {Loader} from "../../../components/Loader/Loader.jsx";
@@ -19,22 +19,24 @@ export function ProductsList() {
         }
     }, [dispatch, status]);
 
-    const result = products
-        .filter(item => {
-        const productName = item.name.toLowerCase();
-        const query = search.toLowerCase();
+    const result = useMemo(() => {
+        return products
+            .filter(item => {
+                const productName = item.name.toLowerCase();
+                const query = search.toLowerCase();
 
-        return productName.includes(query);})
-        .filter(item => {
-            if (category === 'all') return true;
-            return item.category === category;
-        })
-        .sort((a, b) => {
-            if (sort === 'expensive') return b.price - a.price
-            if (sort === 'cheap') return a.price - b.price
-            if (sort === 'stock') return b.quantity - a.quantity
-            return 0
-        })
+                return productName.includes(query);})
+            .filter(item => {
+                if (category === 'all') return true;
+                return item.category === category;
+            })
+            .sort((a, b) => {
+                if (sort === 'expensive') return b.price - a.price
+                if (sort === 'cheap') return a.price - b.price
+                if (sort === 'stock') return b.quantity - a.quantity
+                return 0
+            })
+    }, [products, search, category, sort]);
 
 
     if (status === 'loading') return <Loader message='Загрузка товаров...'/>;

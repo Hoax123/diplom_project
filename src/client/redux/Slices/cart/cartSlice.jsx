@@ -7,7 +7,7 @@ export const fetchCart = createAsyncThunk(
     'cart/fetchCart',
     async (_, thunkAPI) => {
         try {
-            const response = await fetch(API, {
+            const response = await fetch(API_URL, {
                 method: 'GET',
                 credentials: 'include'
             })
@@ -27,7 +27,7 @@ export const addToCart = createAsyncThunk(
     'cart/addToCart',
     async ({productId, quantity = 1}, thunkAPI) => {
         try {
-            const response = await fetch(`${API}/add`, {
+            const response = await fetch(`${API_URL}/add`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
@@ -51,7 +51,7 @@ export const removeFromCart = createAsyncThunk(
     'cart/removeFromCart',
     async ({ productId }, thunkAPI) => {
         try {
-            const response = await fetch(`${API}/${productId}`, {
+            const response = await fetch(`${API_URL}/${productId}`, {
                 method: 'DELETE',
                 credentials: 'include'
             })
@@ -78,8 +78,11 @@ const initialState = {
 function recalc(state) {
     state.totalQuantity = state.items.reduce((sum, item) => sum + item.quantity, 0)
     state.totalAmount = state.items.reduce((sum, item) => {
-        const price = typeof item.productId === 'object' ? item.productId.price : 0
-        return sum + item.quantity * price
+        if (item.productId && typeof item.productId === 'object' && 'price' in item.productId) {
+            return sum + item.quantity * item.productId.price
+        }
+
+        return sum
     }, 0)
 }
 

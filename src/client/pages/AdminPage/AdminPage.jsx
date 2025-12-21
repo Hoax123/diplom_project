@@ -65,6 +65,7 @@ export function AdminPage() {
                     product: productForm,
                 }))
                 setEditingId(null);
+                setProductForm({name: "", image: "", price: "", category: "", quantity: ""});
             } else {
                 const payload = {
                     ...productForm,
@@ -73,6 +74,8 @@ export function AdminPage() {
                 }
 
                 await dispatch(createProduct(payload))
+                setProductForm({name: "", image: "", price: "", category: "", quantity: ""});
+                dispatch(fetchProducts());
             }
         } catch (error) {
             alert(`Ошибка: ${error.message}`)

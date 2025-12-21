@@ -116,3 +116,14 @@
     }
 }
 
+.emptyCart {
+    text-align: center;
+    padding: 3rem;
+}
+
+.shopLink {
+    color: #000;
+    text-decoration: underline;
+    margin-top: 1rem;
+    display: inline-block;
+}

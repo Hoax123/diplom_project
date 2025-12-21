@@ -100,7 +100,7 @@ const productsSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchProducts.pending, (state, action) => {
+            .addCase(fetchProducts.pending, (state) => {
                 state.status = 'loading'
                 state.error = null
             })
@@ -114,13 +114,13 @@ const productsSlice = createSlice({
             })
 
 
-            .addCase(createProduct.pending, (state, action) => {
+            .addCase(createProduct.pending, (state) => {
                 state.status = 'loading'
                 state.error = null
             })
             .addCase(createProduct.fulfilled, (state, action) => {
                 state.status = 'succeeded'
-                state.list.push(action.payload)
+                state.list = [action.payload, ...state.list]
             })
             .addCase(createProduct.rejected, (state, action) => {
                 state.status = 'failed'

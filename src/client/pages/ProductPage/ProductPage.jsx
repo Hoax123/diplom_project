@@ -26,6 +26,10 @@ export function ProductPage() {
             return;
         }
 
+        if (!product || !product._id) {
+            alert("Товар не найден")
+        }
+
         try {
             let result = await dispatch(addToCart({productId: product._id, quantity: 1}));
 
