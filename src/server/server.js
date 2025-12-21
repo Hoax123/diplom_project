@@ -15,10 +15,7 @@ app.use(cors({
     origin: ["http://localhost:5173", "http://188.225.42.6"],
     credentials: true,
 }))
-app.options("*", cors({
-    origin: ["http://localhost:5173", "http://188.225.42.6"],
-    credentials: true,
-}))
+
 app.use(express.json())
 app.use(cookieParser())
 
